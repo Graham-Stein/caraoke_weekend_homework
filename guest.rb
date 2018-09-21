@@ -4,7 +4,7 @@ class Guest
 
   def initialize(guest_name, wallet = 0)
     @guest_name = guest_name
-    @wallet = wallet
+    @wallet     = wallet
   end
 
   def add_remove_cash(cash)
