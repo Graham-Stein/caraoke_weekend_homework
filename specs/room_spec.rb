@@ -11,8 +11,9 @@ class TestRoom < MiniTest::Test
     @pear_tree = Room.new("Pear Tree Upstairs", 7)
     @worlds_end = Room.new("World's End", 7)
 
-    @punter1 = Guest.new("Mike Tyson")
+    @punter1 = Guest.new("Mike Tyson", 10)
     @punter2 = Guest.new("Guy Wimble", 20)
+    @punter3 = Guest.new("Guy Richie", 4)
     @guest_list = [@punter1, @punter2]
 
     @pun1 = Guest.new("Ben A", 15)
@@ -25,6 +26,17 @@ class TestRoom < MiniTest::Test
     @pun8 = Guest.new("Ben H", 15)
 
     @pun_list = [@pun1, @pun2, @pun3, @pun4, @pun5, @pun6, @pun7, @pun8]
+
+    @punt1 = Guest.new("Freddie A", 15)
+    @punt2 = Guest.new("Freddie B", 15)
+    @punt3 = Guest.new("Freddie C", 15)
+    @punt4 = Guest.new("Freddie D", 15)
+    @punt5 = Guest.new("Freddie E", 15)
+    @punt6 = Guest.new("Freddie F", 15)
+    @punt7 = Guest.new("Freddie G", 15)
+    @punt8 = Guest.new("Freddie H", 15)
+
+    @punt_list = [@punt1, @punt2, @punt3, @punt4, @punt5, @punt6, @punt7, @punt8]
 
 
     @alabama3 = Song.new("12 Step Plan")
@@ -71,7 +83,7 @@ class TestRoom < MiniTest::Test
   end
 
   def test_guest_can_afford_entry__fail()
-    assert_equal(false,@pear_tree.can_afford_entry?(@punter1))
+    assert_equal(false,@pear_tree.can_afford_entry?(@punter3))
   end
 
   def test_print_guest_list()
@@ -83,20 +95,31 @@ class TestRoom < MiniTest::Test
     @worlds_end.check_in_array_of_guests(@pun_list)
     # binding.pry
     assert_equal(8, @worlds_end.count_guests(@pun_list))
-    assert_equal(true, @worlds_end.max_guests(@pun_list))
+    assert_equal(false, @worlds_end.max_guests(@pun_list))
   end
 
   def test_max_number_exceeded_false
     @pear_tree.check_in_array_of_guests(@guest_list)
     # binding.pry
     assert_equal(2, @pear_tree.count_guests(@guest_list))
-    assert_equal(false, @pear_tree.max_guests(@guest_list))
+    assert_equal(true, @pear_tree.max_guests(@guest_list))
   end
 
   def test_take_entry_fee()
     @pear_tree.take_entry_fee(@punter2)
     assert_equal(15,@punter2.wallet)
     assert_equal(5,@pear_tree.till)
+  end
+
+  # def test_check_out_one_guest()
+  #   @pear_tree.check_in_array_of_guests(@punt_list)
+  #   @pear_tree.check_out_guest(@punt1)
+  #   assert_equal(7,@pear_tree.guest_list.length)
+  # end
+  def test_check_out_one_guest()
+    @pear_tree.check_in_array_of_guests(@punt_list)
+    @pear_tree.check_out_guest(@punt1)
+    assert_equal("Freddie B",@pear_tree.guest_list[0].guest_name)
   end
 
 end

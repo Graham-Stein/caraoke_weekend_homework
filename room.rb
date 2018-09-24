@@ -16,7 +16,17 @@ class Room
   end
 
   def check_in_guest(guest)
+    if max_guests(@guest_list) && can_afford_entry?(guest) == true
     @guest_list.push(guest)
+    else
+      if max_guests(@guest_list) == false
+        p "No entry #{guest.guest_name}, we're too full."
+      elsif can_afford_entry?(guest) == false
+        p "No entry #{guest.guest_name}, you're skint!"
+      else
+        nil
+      end
+    end
   end
 
   def check_in_array_of_guests(guests)
@@ -25,12 +35,16 @@ class Room
     }
   end
 
+  def check_out_guest(guest)
+    @guest_list.delete(guest)
+  end
+
   def count_guests(guests)
     guests.count
   end
 
   def max_guests(guests)
-    count_guests(guests) > @spaces
+    count_guests(guests) <= @spaces
   end
 
   def print_guests
@@ -42,7 +56,6 @@ class Room
   end
 
   def can_afford_entry?(guest)
-    p @entry_fee
     guest.wallet >= @entry_fee
   end
 
